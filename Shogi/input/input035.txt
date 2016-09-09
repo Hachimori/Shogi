@@ -1,0 +1,8 @@
+1
+GYOKU 0 1
+1
+GYOKU 2 1
+1
+HU
+1
+HU

@@ -1,0 +1,8 @@
+1
+GYOKU 1 2
+1
+GYOKU 2 0
+1
+KIN
+1
+KIN

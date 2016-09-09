@@ -1,0 +1,10 @@
+2
+GYOKU 2 2
+GIN 2 0
+2
+GYOKU 0 0
+GIN 0 2
+1
+HU
+1
+HU

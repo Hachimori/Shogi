@@ -1,0 +1,11 @@
+3
+GYOKU 2 2
+HU 2 1
+KEIMA 2 0
+3
+GYOKU 0 0
+HU 0 1
+KEIMA 0 2
+0
+0
+

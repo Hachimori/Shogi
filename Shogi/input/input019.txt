@@ -1,0 +1,10 @@
+3
+GYOKU 2 2
+HISYA 2 1
+HU 2 0
+3
+GYOKU 0 0
+KAKU 0 1
+HU 0 2
+0
+0

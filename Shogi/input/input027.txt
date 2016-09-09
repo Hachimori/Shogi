@@ -1,0 +1,10 @@
+2
+GYOKU 2 1
+KAKU 2 0
+2
+GYOKU 0 1
+KAKU 0 2
+1
+HU
+1
+HU
