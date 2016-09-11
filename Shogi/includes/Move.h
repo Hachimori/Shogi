@@ -8,8 +8,8 @@
 #ifndef MOVE_H_
 #define MOVE_H_
 
-
 #include"Point.h"
+#include"Piece.h"
 
 
 class Move {
@@ -30,6 +30,8 @@ public:
     Point moveFrom;
     Point moveTo;
     Piece movedPiece;
+
+    friend std::istream& operator>>(std::istream& in, Move& m);
 };
 
 

@@ -11,6 +11,7 @@
 #include"TypeUtil.h"
 #include"Game.h"
 #include"Optimizer.h"
+#include"Play.h"
 using namespace std;
 
 
@@ -41,6 +42,6 @@ int main(int argc, char *argv[]) {
     // ゲームのプレイ
     if (strcmp(argv[1], "play") == 0) {
         Play play;
-        // play.init(argv[2], strcmp(argv[3], "SENTE") == 0);
+        play.init(argv[2], strcmp(argv[3], "SENTE") == 0);
     }
 }

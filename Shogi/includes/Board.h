@@ -8,6 +8,7 @@
 #ifndef BOARD_H_
 #define BOARD_H_
 
+#include<iostream>
 #include<vector>
 #include"Constants.h"
 #include"Point.h"
@@ -22,6 +23,8 @@ private:
     std::vector<Piece> gotePiece;
 
 public:
+    Board();
+
     bool getIsSente();
     void setIsSente(bool _isSente);
     void setPiece(int r, int c, const Piece &p);
@@ -41,6 +44,7 @@ public:
     bool isInside(int r, int c);
     bool canMoveTo(int nr, int nc, Piece &piece);
     bool operator< (const Board &opp) const;
+    friend std::istream& operator>>(std::istream& in, Board& b);
 
     // 盤面の状態を、人間にとって見やすいフォーマットで出力
     //
@@ -76,6 +80,5 @@ public:
     // ...
     std::string format();
 };
-
 
 #endif /* BOARD_H_ */

@@ -18,6 +18,16 @@
 #include"TypeUtil.h"
 using namespace std;
 
+Board::Board() {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            setPiece(i, j, Piece(BLANK, false, false));
+        }
+    }
+    sentePiece.clear();
+    gotePiece.clear();
+}
+
 
 bool Board::getIsSente() {
     return isSente;
@@ -471,7 +481,7 @@ bool Board::canMoveTo(int nr, int nc, Piece &piece) {
 }
 
 
-bool Board::operator< (const Board &opp) const {
+bool Board::operator<(const Board &opp) const {
     if (isSente != opp.isSente) return isSente < opp.isSente;
 
     for (int i = 0; i < SIZE; ++i) {
@@ -484,6 +494,53 @@ bool Board::operator< (const Board &opp) const {
 
     if (sentePiece != opp.sentePiece) return sentePiece < opp.sentePiece;
     return gotePiece < opp.gotePiece;
+}
+
+
+istream& operator>>(istream& in, Board& b) {
+    // 先手の盤上の駒
+    int nSenteBoardPiece;
+    in >> nSenteBoardPiece;
+
+    for (int i = 0; i < nSenteBoardPiece; ++i) {
+        string typeName;
+        int r, c;
+        in >> typeName >> r >> c;
+        b.setPiece(r, c, Piece(typeutil::getType(typeName), true, false));
+    }
+
+    // 後手の盤上の駒
+    int nGoteBoardPiece;
+    in >> nGoteBoardPiece;
+
+    for (int i = 0; i < nGoteBoardPiece; ++i) {
+        string typeName;
+        int r, c;
+        in >> typeName >> r >> c;
+        b.setPiece(r, c, Piece(typeutil::getType(typeName), false, false));
+    }
+
+    // 先手の持駒
+    int nSenteOwnPiece;
+    in >> nSenteOwnPiece;
+
+    for (int i = 0; i < nSenteOwnPiece; ++i) {
+        string typeName;
+        in >> typeName;
+        b.addPiece(true, Piece(typeutil::getType(typeName), true, false));
+    }
+
+    // 後手の持駒
+    int nGoteOwnPiece;
+    in >> nGoteOwnPiece;
+
+    for (int i = 0; i < nGoteOwnPiece; ++i) {
+        string typeName;
+        in >> typeName;
+        b.addPiece(false, Piece(typeutil::getType(typeName), false, false));
+    }
+
+    return in;
 }
 
 
