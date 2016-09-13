@@ -11,7 +11,7 @@
 #include<map>
 
 const int SIZE = 3;
-const int LOOP = 1000;
+const int LOOP = 50;
 
 
 enum Type{

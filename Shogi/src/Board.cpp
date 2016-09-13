@@ -18,6 +18,7 @@
 #include"TypeUtil.h"
 using namespace std;
 
+
 Board::Board() {
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
@@ -62,6 +63,26 @@ void Board::addPiece(bool _isSente, const Piece &p) {
         gotePiece.push_back(p);
         sort(gotePiece.begin(), gotePiece.end());
     }
+}
+
+
+vector<Piece> Board::getSentePiece() {
+    return sentePiece;
+}
+
+
+vector<Piece> Board::getGotePiece() {
+    return gotePiece;
+}
+
+
+void Board::eraseSentePiece(int idx) {
+    sentePiece.erase(sentePiece.begin() + idx);
+}
+
+
+void Board::eraseGotePiece(int idx) {
+    gotePiece.erase(gotePiece.begin() + idx);
 }
 
 
@@ -198,7 +219,7 @@ vector<pair<Board, Move> > Board::listNextState() {
                 }
 
                 // 打った駒が歩で相手が負けになる場合、打ち歩詰めになるので打たない
-                if (board[r][c].getType() == HU && next.isInCheck(!isSente) && next.listNextState().empty()) {
+                if (toPut.getType() == HU && next.isInCheck(!isSente) && next.listNextState().empty()) {
                     continue;
                 }
 
@@ -456,6 +477,7 @@ bool Board::isValidMovement(int r, int c, Piece piece) {
     return true;
 }
 
+
 bool Board::isValidPlacement(int r, int c, Piece piece) {
     // 二歩のチェック
     if (piece.getType() == HU && !piece.getIsNaru()) {
@@ -498,32 +520,34 @@ bool Board::operator<(const Board &opp) const {
 
 
 istream& operator>>(istream& in, Board& b) {
+    // どちらの手番か
+    string sente;
+    in >> sente;
+    b.setIsSente(sente == "SENTE");
+
     // 先手の盤上の駒
     int nSenteBoardPiece;
     in >> nSenteBoardPiece;
-
     for (int i = 0; i < nSenteBoardPiece; ++i) {
-        string typeName;
+        string typeName, nari;
         int r, c;
-        in >> typeName >> r >> c;
-        b.setPiece(r, c, Piece(typeutil::getType(typeName), true, false));
+        in >> typeName >> r >> c >> nari;
+        b.setPiece(r, c, Piece(typeutil::getType(typeName), true, nari == "NARI"));
     }
 
     // 後手の盤上の駒
     int nGoteBoardPiece;
     in >> nGoteBoardPiece;
-
     for (int i = 0; i < nGoteBoardPiece; ++i) {
-        string typeName;
+        string typeName, nari;
         int r, c;
-        in >> typeName >> r >> c;
-        b.setPiece(r, c, Piece(typeutil::getType(typeName), false, false));
+        in >> typeName >> r >> c >> nari;
+        b.setPiece(r, c, Piece(typeutil::getType(typeName), false, nari == "NARI"));
     }
 
     // 先手の持駒
     int nSenteOwnPiece;
     in >> nSenteOwnPiece;
-
     for (int i = 0; i < nSenteOwnPiece; ++i) {
         string typeName;
         in >> typeName;
@@ -533,7 +557,6 @@ istream& operator>>(istream& in, Board& b) {
     // 後手の持駒
     int nGoteOwnPiece;
     in >> nGoteOwnPiece;
-
     for (int i = 0; i < nGoteOwnPiece; ++i) {
         string typeName;
         in >> typeName;
@@ -546,7 +569,9 @@ istream& operator>>(istream& in, Board& b) {
 
 // 盤面の状態を、人間にとって見やすいフォーマットで出力
 //
+//
 // 出力例:
+// 先手の手番です。
 // 後手の持ち駒: 金  v
 // +------+------+------+
 // |      |      |玉  v|
@@ -557,6 +582,9 @@ istream& operator>>(istream& in, Board& b) {
 // +------+------+------+
 // 先手の持ち駒: 金  ^
 void Board::print() {
+
+    // どちらの手版か
+    printf("%sの手番です。\n", isSente ? "先手" : "後手");
 
     // 後手の持駒
     printf("後手の持ち駒:");
@@ -619,6 +647,7 @@ void Board::print() {
 
 // 盤面の状態を、プログラムが読み込めるようにフォーマットして出力
 //
+// [手番 (SENTE or GOTE)]
 // [盤上にある先手の駒の数]
 // 先手の駒の種類_1 行_1 列_1 (NARI or HUNARI)_1
 // 先手の駒の種類_2 行_2 列_2 (NARI or HUNARI)_2
@@ -652,6 +681,9 @@ string Board::format() {
     }
 
     ostringstream out;
+
+    out << (isSente ? "SENTE" : "GOTE") << endl;
+
     out << senteBoardPiece.size() << endl;
     for (int i = 0; i < senteBoardPiece.size(); ++i) {
         Piece &pi = senteBoardPiece[i].first;

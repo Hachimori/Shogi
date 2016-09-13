@@ -15,6 +15,7 @@
 #include"Piece.h"
 #include"Move.h"
 
+
 class Board {
 private:
     bool isSente;
@@ -30,6 +31,11 @@ public:
     void setPiece(int r, int c, const Piece &p);
     Piece getPiece(int r, int c);
     void addPiece(bool _isSente, const Piece &p);
+    std::vector<Piece> getSentePiece();
+    std::vector<Piece> getGotePiece();
+    void eraseSentePiece(int idx);
+    void eraseGotePiece(int idx);
+
     bool isInCheck(bool isGetSente);
 
     // 動かしうる次の局面のリストを返す

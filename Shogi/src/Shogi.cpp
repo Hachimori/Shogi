@@ -36,12 +36,10 @@ int main(int argc, char *argv[]) {
         optimizer.optimize();
         optimizer.output();
     }
-
-    return 0;
-
     // ゲームのプレイ
-    if (strcmp(argv[1], "play") == 0) {
+    else if (strcmp(argv[1], "play") == 0) {
         Play play;
         play.init(argv[2], strcmp(argv[3], "SENTE") == 0);
+        play.play();
     }
 }

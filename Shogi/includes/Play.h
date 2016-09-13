@@ -11,7 +11,7 @@
 class Play {
 private:
     bool isPlayerSente;  // 人間は先手かどうか
-    Board board;
+    Board initBoard;
 
     // state[局面] := 整数n
     //

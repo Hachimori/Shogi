@@ -31,6 +31,9 @@ public:
     Point moveTo;
     Piece movedPiece;
 
+    void setUtsuPiece(const Piece &p);
+    void setMovedPiece(const Piece &p);
+
     friend std::istream& operator>>(std::istream& in, Move& m);
 };
 

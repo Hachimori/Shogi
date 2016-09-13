@@ -89,11 +89,11 @@ void Optimizer::optimize() {
                 }
             }
             else {
-                if (maxNegative != INT_MAX) {
+                if (maxNegative != INT_MIN) {
                     state[board] = maxNegative - 1;
                     nextMove[board] = maxNegativeMove;
                 }
-                else if (maxPositive != INT_MAX) {
+                else if (maxPositive != INT_MIN) {
                     state[board] = maxPositive + 1;
                     nextMove[board] = maxPositiveMove;
                 }

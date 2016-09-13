@@ -9,10 +9,21 @@
 #include<string>
 #include"TypeUtil.h"
 #include"Move.h"
+#include"Board.h"
 using namespace std;
 
 
-istream& operator>>(std::istream& in, Move& m) {
+void Move::setUtsuPiece(const Piece &p) {
+    utsuPiece = p;
+}
+
+
+void Move::setMovedPiece(const Piece &p) {
+    movedPiece = p;
+}
+
+
+istream& operator>>(istream &in, Move &move) {
 
     string moveType;
     in >> moveType;
@@ -22,10 +33,9 @@ istream& operator>>(std::istream& in, Move& m) {
         int r, c;
         in >> pieceType >> r >> c;
 
-        m.isUtsu = true;
-        // TODO: なおす
-        m.utsuPiece = Piece(typeutil::getType(pieceType), false, false);
-        m.utsuTo = Point(r, c);
+        move.isUtsu = true;
+        move.utsuPiece = Piece(typeutil::getType(pieceType), false, false);
+        move.utsuTo = Point(r, c);
     }
     else {
         int moveFromR, moveFromC;
@@ -33,12 +43,9 @@ istream& operator>>(std::istream& in, Move& m) {
         string nari;
         in >> moveFromR >> moveFromC >> moveToR >> moveToC >> nari;
 
-        m.isUtsu = false;
-        m.moveFrom = Point(moveFromR, moveFromC);
-        m.moveTo = Point(moveToR, moveToC);
-        //m.utsuPiece =
-        //fout << move.moveFrom.r << ' ' << move.moveFrom.c << ' ';
-        //fout << move.moveTo.r << ' ' << move.moveTo.c << ' ';
-        //fout << (move.utsuPiece.getIsNaru() ? "NARI" : "HUNARI") << endl;
+        move.isUtsu = false;
+        move.moveFrom = Point(moveFromR, moveFromC);
+        move.moveTo = Point(moveToR, moveToC);
+        move.movedPiece = Piece(BLANK, false, (nari == "NARI"));
     }
 }
